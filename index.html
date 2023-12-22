@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Мессенджер</title>
+</head>
+<body>
+    <h1>Мессенджер</h1>
+
+    <form id="message-form">
+        <input type="text" id="message-input">
+        <button type="submit">Отправить</button>
+    </form>
+
+    <ul id="message-list">
+        {% for message in messages %}
+        <li>{{ message }}</li>
+        {% endfor %}
+    </ul>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('#message-form').submit(function(event) {
+                event.preventDefault();
+                var message = $('#message-input').val();
+                $.post('/send', {message: message}, function(data) {
+                    $('#message-list').append('<li>' + data.message + '</li>');
+                    $('#message-input').val('');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
